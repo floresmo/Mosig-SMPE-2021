@@ -1,0 +1,12 @@
+---
+title: "R Notebook : Fitt's Law study"
+output: html_notebook
+---
+
+data = read.csv("https://app-learninglab.inria.fr/gitlab/moocrr-session1/moocrr-reproducibility-study/raw/master/data/shuttle.csv",header=T)
+
+
+```{r}
+plot(cars)
+```
+
