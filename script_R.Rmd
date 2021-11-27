@@ -3,10 +3,83 @@ title: "R Notebook : Fitt's Law study"
 output: html_notebook
 ---
 
-data = read.csv("https://app-learninglab.inria.fr/gitlab/moocrr-session1/moocrr-reproducibility-study/raw/master/data/shuttle.csv",header=T)
+*Objectives*
+I wanted to redo the Fitt's Law analysis with R to get more familiar with the tool. 
+I will here only focus on the analysis of the confident interval and the interpretation I can (or cannot) make according to it.
 
-
+--- Loading Libraries and data
 ```{r}
-plot(cars)
+library(tidyverse)
+
+data = read.csv("data/data_all.csv",header=T)
 ```
+
+--- First Test : comparing my results and Cecile's results
+```{r}
+d1 = data[(data$experiment == "e_11") | (data$experiment == "e_12"),]
+
+ggplot(data = d1) +
+  aes(x = `ID`) +
+  aes(y = `MT`) +
+  geom_point() +
+  aes(col = `experiment`) +
+  geom_smooth() +
+  xlim(c(2, 6)) +
+  labs(title = "Test 1 : e_11 (Morgane) vs e_12 (Cecile)")
+```
+We can see that the uncertainty is huge ! Maybe we should reconduct the study with more trials to be really able to compare the two results.
+The only thing we can see is that Cecile does have any result for ID=6, that is strange... she must have forgotten to give that results.
+
+--- Test 2 : Doubling the distance between the lines
+```{r}
+d2 = data[(data$experiment == "e_2") | (data$experiment == "e_3"),]
+
+ggplot(data = d2) +
+  aes(x = `ID`) +
+  aes(y = `MT`) +
+  geom_point() +
+  aes(col = `experiment`) +
+  geom_smooth() +
+  xlim(c(2, 6)) +
+  labs(title = "Test 2 : e_2 (with distance d) vs e_3 (with distance 2*d)")
+```
+Both curves have a lot of uncertainty but they seem quite identical, except that e_3 is adding one level of difficulty compared to e_2. 
+
+--- Test 3 : Mouse vs tactile pad
+```{r}
+d3 = data[(data$experiment == "e_2") | (data$experiment == "e_4"),]
+
+ggplot(data = d3) +
+  aes(x = `ID`) +
+  aes(y = `MT`) +
+  geom_point() +
+  aes(col = `experiment`) +
+  geom_smooth() +
+  xlim(c(2, 5)) +
+  labs(title = "Test 3 : e_2 (with mouse) vs e_4 (with tactile pad)")
+```
+
+We can see that the results with tactile pad are way more variable than with the mouse !
+
+--- Test 4 : normal Behavior vs safe behavior
+```{r}
+d4 = data[(data$experiment == "e_2") | (data$experiment == "e_5"),]
+
+ggplot(data = d4) +
+  aes(x = `ID`) +
+  aes(y = `MT`) +
+  geom_point() +
+  aes(col = `experiment`) +
+  geom_smooth() +
+  xlim(c(2, 5)) +
+  labs(title = "Test 4 : e_2 (with normal behavior) vs e_5 (with safe behavior)")
+```
+
+We can clearly see that with a safe behavior, I took more time to execute the same task. Even with the incertainty, I am able to conclude that because the difference is clear on the graph.
+
+
+
+
+
+
 
